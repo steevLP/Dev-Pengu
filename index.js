@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, Collection, REST, Routes } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, REST, Routes, Events } = require('discord.js');
 const fs = require('fs');
 const sql = require('mysql');
 
@@ -44,10 +44,14 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
     }
 })();
 
-bot.on("interactionCreate", async interaction => {
+bot.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return;
     let commandfile = bot.commands.get(interaction.commandName);
     if (commandfile) commandfile.run(bot, interaction);
+})
+
+// Handles Reactions
+bot.on(Events.MessageReactionAdd, async reaction => {
 })
 
 bot.login(process.env.TOKEN)

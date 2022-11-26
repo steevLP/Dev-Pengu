@@ -17,7 +17,6 @@ module.exports = {
         const userEmbed = new EmbedBuilder()
         .setColor('#0099ff')
         .setTitle('Dev Pengu Help')
-        .setURL('https://frankenbot.io/help')
         .setDescription('A List of Commands for Dev Pengu')
         .addFields(
             { name: '**Help**', value: '`/help`' },
