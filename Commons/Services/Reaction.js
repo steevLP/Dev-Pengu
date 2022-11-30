@@ -18,7 +18,6 @@ const HandleReaction = async (reaction, user, database, Action) => {
             // Route Actions
             switch (Action) {
                 case "add":
-                    react.
                     break;
                 case "remove":
                     break;
