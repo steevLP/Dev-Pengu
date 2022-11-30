@@ -7,12 +7,10 @@ const bot = new Client({ intents: [GatewayIntentBits.Guilds] });
 bot.commands = new Collection();
 const commands = [];
 
-const server = sql.createConnection({
-    host     : process.env.HOST,
-    user     : process.env.USER,
-    password : process.env.PASSWORD,
-    database : process.env.DATABASE
-});
+const { HandleReaction } = require("./Commons/Services/Reaction");
+
+const Database = require("./Commons/Data/Database");
+const server = Database(process.env)
 
 server.connect(function(err) {
     if (err) {
@@ -37,7 +35,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 (async () => {
     try {
         console.log('Started refreshing application (/) commands.');
-        await rest.put(Routes.applicationCommands("1037320315186974771"), { body: commands });
+        await rest.put(Routes.applicationCommands(process.env.APPID), { body: commands });
         console.log('Successfully reloaded application (/) commands.');
     } catch (error) {
         console.error(error);
@@ -52,6 +50,10 @@ bot.on(Events.InteractionCreate, async interaction => {
 
 // Handles Reactions
 bot.on(Events.MessageReactionAdd, async reaction => {
+    HandleReaction(reaction, Database, "add")
 })
 
+bot.on(Events.MessageReactionRemove, reaction => {
+    HandleReaction(reaction, async Database, "remove")
+})
 bot.login(process.env.TOKEN)

@@ -1,7 +1,7 @@
 const sql = require('mysql');
 
-var Database = async (db) => {
-    var server = sql.createConnection({
+const Database = async (db) => {
+    const server = sql.createConnection({
         host     : db.HOST,
         user     : db.USER,
         password : db.PASSWORD,
