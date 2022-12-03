@@ -4,9 +4,9 @@ A Discord Bot for our Discord Tech Community Server https://discord.gg/M655zKsM9
 Lots of things like the Roadmap need to be figured out, before we can write the proper Readme.
 
 # Roadmap
-## 1.0
+## 1.0 [IN-Dev]
 Initial Release
-- Reaction Roles
+- Reaction Roles [IN-Dev]
 - Basic User Moderation
   - User Warning
   - User Kicking
@@ -18,3 +18,5 @@ Initial Release
   - Amount of send Messages
   - Level
   - XP
+- Reward V1
+using level to give rewards
