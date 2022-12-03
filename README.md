@@ -12,8 +12,8 @@ Initial Release
   - User Kicking
   - User Banning
   - User Muting
-- Proper Moderation Info
-  - User gets notified with an embed telling him infos he can use to get support with
+  - Basic Moderation Info
+    - User gets notified with an embed telling him infos he can use to get support with
 - User Stats V1
   - Amount of send Messages
   - Level
