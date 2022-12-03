@@ -19,4 +19,4 @@ Initial Release
   - Level
   - XP
 - Reward V1
-using level to give rewards
+  - using level to give rewards
