@@ -1,23 +1,20 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, Collection, REST, Routes, Events } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, REST, Routes, Events, Partials } = require('discord.js');
 const fs = require('fs');
 const sql = require('mysql');
 
-const bot = new Client({ intents: [GatewayIntentBits.Guilds] });
+const bot = new Client({
+    intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions ],
+    partials: [Partials.Message, Partials.Channel, Partials.Reaction],
+});
+
 bot.commands = new Collection();
 const commands = [];
 
 const { HandleReaction } = require("./Commons/Services/Reaction");
 
-const Database = require("./Commons/Data/Database");
-const server = Database(process.env)
-
-server.connect(function(err) {
-    if (err) {
-        console.error('error connecting: ' + err.stack);
-        process.exit(1)
-    }
-});
+// const Database = require("./Commons/Data/Database");
+// const server = Database(process.env)
 
 /* ===============
    * File Import *
@@ -49,11 +46,15 @@ bot.on(Events.InteractionCreate, async interaction => {
 })
 
 // Handles Reactions
-bot.on(Events.MessageReactionAdd, async reaction => {
-    HandleReaction(reaction, Database, "add")
+bot.on(Events.MessageReactionAdd, async (reaction, user) => {
+    console.log("reaction")
+    console.log(reaction)
+    console.log(reaction._emoji.name, reaction.message.id)
+    HandleReaction(reaction, user, undefined, "add")
 })
 
-bot.on(Events.MessageReactionRemove, reaction => {
-    HandleReaction(reaction, async Database, "remove")
+bot.on(Events.MessageReactionRemove, async (reaction, user) => {
+    HandleReaction(reaction, user, Database, "remove")
 })
 bot.login(process.env.TOKEN)
+
