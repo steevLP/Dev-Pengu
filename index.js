@@ -40,6 +40,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 })();
 
 bot.on(Events.InteractionCreate, async interaction => {
+    // TODO: Adde Rolebased Permission Tracking rather then relying on discord permission system
     if (!interaction.isChatInputCommand()) return;
     let commandfile = bot.commands.get(interaction.commandName);
     if (commandfile) commandfile.run(bot, interaction);
