@@ -31,7 +31,7 @@ const AddRole = async (userVal, roleName, bot, reason) => {
     @param {string} roleName name of role to assign a user
     @param {discord.Client} bot the bots instance
 */
-const AddRoles = async (userVal, roleNames, bot, reason) => {
+const AddRoles = async (userVal, roles, bot, reason) => {
 
     // error handling
     if (userVal == undefined) { throw "error user was undefined" }
@@ -44,12 +44,12 @@ const AddRoles = async (userVal, roleNames, bot, reason) => {
     // fetching required data
     const guild = bot.guilds.cache.first()
 
-    roleNames.forEach(r => {
-        const role = guild.roles.find("name", r)
+    roles.forEach(r => {
+        const role = guild.roles.find("name", r.name)
         if (role == undefined) {
             throw `error couldnt find role ${role}`
         }
-        userVal.roles.add(role, reason)
+        userVal.roles.add(role, r.reason)
     })
 }
 
@@ -85,7 +85,18 @@ revokes a given roles to a given user
 @param {string} roleName name of role to assign a user
 @param {discord.Client} bot the bots instance
 */
-const RemoveRoles = async (userVal, roleNames, bot, reason) => {
+const RemoveRoles = async (userVal, roles, bot) => {
+
+    [
+        {
+            name: "role",
+            reason: "given as a test"
+        },
+        {
+            name: "role",
+            reason: undefined
+        },
+     ]
 
     // error handling
     if (userVal == undefined) { throw "error user was undefined" }
@@ -98,11 +109,11 @@ const RemoveRoles = async (userVal, roleNames, bot, reason) => {
     // fetching required data
     const guild = bot.guilds.cache.first()
 
-    roleNames.forEach(r => {
-        const role = guild.roles.find("name", r)
+    roles.forEach(r => {
+        const role = guild.roles.find("name", r.name)
         if (role == undefined) {
             throw `error couldnt find role ${role}`
         }
-        userVal.roles.remove(role, reason)
+        userVal.roles.remove(role, r.reason)
     })
 }
