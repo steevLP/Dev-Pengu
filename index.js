@@ -13,12 +13,12 @@ const commands = [];
 
 const { HandleReaction } = require("./Commons/Services/Reaction");
 
-// const Database = require("./Commons/Data/Database");
-// const server = Database(process.env)
+const Database = require("./Commons/Data/Database");
+const server = Database(process.env)
 
 /* ===============
-   * File Import *
-   =============== */
+* File Import *
+=============== */
 const commandFiles = fs.readdirSync("./Commands/").filter((file) => file.endsWith(".js"));
 for (const file of commandFiles) {
     const command = require(`./Commands/${file}`);
@@ -55,7 +55,7 @@ bot.on(Events.MessageReactionAdd, async (reaction, user) => {
 })
 
 bot.on(Events.MessageReactionRemove, async (reaction, user) => {
-    HandleReaction(reaction, user, Database, "remove")
+    HandleReaction(reaction, user, server, "remove")
 })
 bot.login(process.env.TOKEN)
 

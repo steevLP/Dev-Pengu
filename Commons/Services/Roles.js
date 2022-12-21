@@ -5,7 +5,7 @@ const discord = require("discord.js")
     @param {string} roleName name of role to assign a user
     @param {discord.Client} bot the bots instance
 */
-const AddRole = async (userVal, roleName, bot, reason) => {
+const AddRole = async (userVal, roleName, bot) => {
 
     // error handling
     if (userVal == undefined) { throw "error user was undefined" }
