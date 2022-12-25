@@ -1,9 +1,9 @@
-// Include discord.js ShardingMana
-const { ShardingManager, REST, Routes, Events } = require('discord.js');
-const fs = require('fs');
-
+// load .env config
 require("dotenv").config();
-const commands = [];
+
+// Include discord.js ShardingMana
+const { ShardingManager} = require('discord.js');
+const { Register } = require("./Commons/Commands");
 
 // Create your ShardingManager instance
 const manager = new ShardingManager("./index.js", {
@@ -13,27 +13,8 @@ const manager = new ShardingManager("./index.js", {
     token: process.env.TOKEN
 });
 
-/* ===============
-* File Import *
-=============== */
-const commandFiles = fs.readdirSync("./Commands/").filter((file) => file.endsWith(".js"));
-for (const file of commandFiles) {
-    const command = require(`./Commands/${file}`);
-    console.log(command.CommandCreator())
-    commands.push(command.CommandCreator());
-}
-
-console.log(commands)
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);  
-(async () => {
-    try {
-        console.log('Started refreshing application (/) commands.');
-        await rest.put(Routes.applicationCommands(process.env.APPID), { body: commands });
-        console.log('Successfully reloaded application (/) commands.');
-    } catch (error) {
-        console.error(error);
-    }
-})();
+// register slash commands
+Register("./Commands/")
 
 // Emitted when a shard is created
 manager.on("shardCreate", shard => console.log(`Shard ${shard.id} launched`));

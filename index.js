@@ -33,9 +33,6 @@ bot.on(Events.InteractionCreate, async interaction => {
 
 // Handles Reactions
 bot.on(Events.MessageReactionAdd, async (reaction, user) => {
-    console.log("reaction")
-    console.log(reaction)
-    console.log(reaction._emoji.name, reaction.message.id)
     HandleReaction(reaction, user, undefined, "add")
 })
 
