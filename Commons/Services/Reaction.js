@@ -21,10 +21,29 @@ const {Connection} = require("mysql")
 
 // Development dummy data
 const DevData = {
-    "1049942781579247627": {
-        "👀":{
-            Role: "test",
-            Restriction: "AddOnly"
+    "1056657249528987769": {
+        type: "reactionRole",
+        reactions: {
+            "👀":{
+                Action: "role",
+                Role: "test",
+                Restriction: "AddOnly"
+            }
+        }
+    },
+    "1056657695207329823": {
+        type: "vote",
+        reactions: {
+            "✅":{
+                Action: "vote-yes",
+                Role: "null",
+                Restriction: "null"
+            },
+            "🚫":{
+                Action: "vote-no",
+                Role: "null",
+                Restriction: "null"
+            }
         }
     }
 }
@@ -46,9 +65,11 @@ const HandleReaction = async (reaction, user, database, Action) => {
             // Route Actions
             switch (Action) {
                 case "add":
-                    console.log(DevData[message.id][reaction._emoji.name])
+                    console.log(DevData[message.id].type)
                     break;
                 case "remove":
+                    // Reverses all actions
+                    // at this point of development pointless to spend development time on
                     break;
             }
         }catch (e) {

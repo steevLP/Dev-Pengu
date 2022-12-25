@@ -3,11 +3,11 @@ const sql = require('mysql');
 const Database = async (db) => {
 
     const server = sql.createConnection({
-        host     : db.HOST,
-        user     : db.USERNAME,
-        password : db.PASSWORD
+        host     : db.DB_HOST,
+        user     : db.DB_USERNAME,
+        password : db.DB_PASSWORD
         ,
-        database : db.DATABASE
+        database : db.DB_NAME
     });
     
     server.connect(function(err) {
