@@ -33,12 +33,14 @@ bot.on(Events.InteractionCreate, async interaction => {
 
 // Handles Reactions
 bot.on(Events.MessageReactionAdd, async (reaction, user) => {
-    HandleReaction(reaction, user, undefined, "add")
+    if (user.bot) return;
+    HandleReaction(reaction, user, undefined, "add", bot)
 })
 
 
 bot.on(Events.MessageReactionRemove, async (reaction, user) => {
-    HandleReaction(reaction, user, server, "remove")
+    if (user.bot) return;
+    HandleReaction(reaction, user, server, "remove", bot)
 })
 bot.login(process.env.TOKEN)
 

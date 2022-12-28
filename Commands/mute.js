@@ -9,7 +9,6 @@ module.exports = {
     CommandCreator() {
         const data = new SlashCommandBuilder()
         .setName(this.name)
-        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
         .setDescription(this.description)
         .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers)
         .addMentionableOption(option => option.setName("target").setDescription("target to mute").setRequired(true))

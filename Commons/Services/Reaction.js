@@ -1,5 +1,6 @@
-const {MessageReaction, PartialMessageReaction, User} = require("discord.js")
+const {MessageReaction, PartialMessageReaction, User, RoleSelectMenuBuilder} = require("discord.js")
 const {Connection} = require("mysql")
+const Roles = require("./Roles");
 
 /**
     reaction programming syntax
@@ -26,8 +27,12 @@ const DevData = {
         reactions: {
             "👀":{
                 Action: "role",
-                Role: "test",
-                Restriction: "AddOnly"
+                Role: {
+                    Name: "Gold Role",
+                    ID: "1051891644007469096"
+                },
+                Restriction: "AddOnly",
+                MessageType: "public",
             }
         }
     },
@@ -37,12 +42,14 @@ const DevData = {
             "✅":{
                 Action: "vote-yes",
                 Role: "null",
-                Restriction: "null"
+                Restriction: "null",
+                MessageType: "public",
             },
             "🚫":{
                 Action: "vote-no",
                 Role: "null",
-                Restriction: "null"
+                Restriction: "null",
+                MessageType: "public",
             }
         }
     }
@@ -55,29 +62,69 @@ const DevData = {
  * @param {Connection} Database current databes instance
  * @param {string} Action string of current action happening
  */
-const HandleReaction = async (reaction, user, database, Action) => {
+const HandleReaction = async (reaction, user, database, Action, bot) => {
     // Handle if reaction is partial and therefor might throw api errors
-    if (reaction.partial){
-        try{
-            // global values
-            let message = reaction.message
+    try{
+        // global values
+        let message = reaction.message
+        console.log(Action);
 
-            // Route Actions
-            switch (Action) {
-                case "add":
-                    console.log(DevData[message.id].type)
-                    break;
-                case "remove":
-                    // Reverses all actions
-                    // at this point of development pointless to spend development time on
-                    break;
-            }
-        }catch (e) {
-            console.log(e)
-            return
+        // Route Actions
+        switch (Action) {
+            case "add":
+                // console.log(DevData[message.id].type)
+                // console.log(DevData[message.id].reactions[reaction.emoji.name].Role)
+                switch (DevData[message.id].type) {
+                    case 'reactionRole':
+                        userRoles = reaction.message.guild.members.cache.get(user.id)
+                        // Detect if user already has that Role
+                        if (!userRoles.roles.cache.has(DevData[message.id].reactions[reaction.emoji.name].Role.ID)) {
+                            Roles.AddRole(userRoles, DevData[message.id].reactions[reaction.emoji.name].Role.Name, bot, "added via automation", message).then(() => {
+                                message.channel.send(`@${user.username} got ${DevData[message.id].reactions[reaction.emoji.name].Role.Name} added`). then(async msg => {
+                                    setTimeout(() => {                                       
+                                        msg.delete();
+                                    },5000)
+                                }).catch(err => {
+                                    console.log("could not send message due to error in reactions.HandleReaction: " + err)
+                                });
+                            }).catch(err => {
+                                console.log("could not add role to client due to error in reactions.HandleReaction: " + err)
+                            });
+                        }
+                        break;
+                }
+                break;
+            case "remove":
+                console.log("remove trigger")
+                // Reverses all actions
+                // at this point of development pointless to spend development time on
+                switch (DevData[message.id].type) {
+                    case 'reactionRole':
+                        console.log("reaction role trigger")
+                        userRoles = reaction.message.guild.members.cache.get(user.id)
+
+                        console.log(userRoles.roles.cache.has(DevData[message.id].reactions[reaction.emoji.name].Role.ID))
+
+                        // Detect if user already has that Role
+                        if (userRoles.roles.cache.has(DevData[message.id].reactions[reaction.emoji.name].Role.ID)) {
+                            console.log("call removerole function")
+                            Roles.RemoveRole(userRoles, DevData[message.id].reactions[reaction.emoji.name].Role.Name, bot, "removed via automation", message);
+                        
+                            message.channel.send(`@${user.username} got ${DevData[message.id].reactions[reaction.emoji.name].Role.Name} removed`). then(async msg => {
+                                setTimeout(() => {                                       
+                                    msg.delete();
+                                },5000)
+                            }).catch(err => {
+                                console.log("could not send message due to error in reactions.HandleReaction: " + err)
+                            });
+                        }
+                        break;
+                }
+                break;
         }
-    } else {
-        console.error("error while checking if reaction was partial")
+    }catch (e) {
+        console.log(e)
+        return
     }
 }
 
