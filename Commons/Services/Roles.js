@@ -94,17 +94,6 @@ revokes a given roles to a given user
 */
 const RemoveRoles = async (userVal, roles, bot) => {
 
-    [
-        {
-            name: "role",
-            reason: "given as a test"
-        },
-        {
-            name: "role",
-            reason: undefined
-        },
-     ]
-
     // error handling
     if (userVal == undefined) { throw "error user was undefined" }
     if (roleName == undefined) { throw "error roleNames was undefined" }

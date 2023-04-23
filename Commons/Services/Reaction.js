@@ -52,6 +52,20 @@ const DevData = {
                 MessageType: "public",
             }
         }
+    },
+    "1099317452170596523": {
+        type: "reactionRole",
+        reactions: {
+            "🪙":{
+                Action: "role",
+                Role: {
+                    Name: "Gold Role",
+                    ID: "1051891644007469096"
+                },
+                Restriction: "AddOnly",
+                MessageType: "public",
+            },
+        }
     }
 }
 
