@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/builders": "^1.6.1",
+    "@discordjs/core": "^0.5.2",
+    "@discordjs/rest": "^1.7.0",
+    "@discordjs/ws": "^0.8.1",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
     "mysql": "^2.18.1"

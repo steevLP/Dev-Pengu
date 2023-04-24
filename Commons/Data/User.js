@@ -28,9 +28,22 @@ let CreateUser = async (sql, server, user, username, owner) => {
  * @param sql {mysql.Connection} the mysql connection object
  * @param server {string} the id of which server you want ot create a user on
  * @param user {string} the id of which user you want to store
+ * @returns the user object fetched from database
  */
 let GetUser = async (sql, server, user) => {
-        throw "not implemented";
+    sql.query({
+        sql: 'SELECT * FROM serverusers WHERE ?',
+        timeout: 40000, // 40s
+        values: {serverid: server, userid: user}
+    }, function (error, results, fields) {
+        // error will be an Error if one occurred during the query
+        if (error != undefined | null) {
+            throw `could not create user on server ${server} with userid ${user} due to error: ` + error
+        }
+        // results will contain the results of the query
+        return results[0];
+        // fields will contain information about the returned results fields (if any)
+    });
 }
 
 /**

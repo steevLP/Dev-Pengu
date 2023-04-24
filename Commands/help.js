@@ -1,5 +1,6 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-
+const { SlashCommandBuilder, MessageFlags } = require('@discordjs/core');
+const { EmbedBuilder } = require('@discordjs/builders');
+const { Colors } = require('discord.js');
 module.exports = {
 
     name: "help",
@@ -8,22 +9,23 @@ module.exports = {
 
     CommandCreator() {
         const data = new SlashCommandBuilder()
-        .setName(this.name)
-        .setDescription(this.description);
-      return data.toJSON();
+            .setName(this.name)
+            .setDescription(this.description);
+        return data.toJSON();
     },
 
-    async run(bot, interaction) {
-        const userEmbed = new EmbedBuilder()
-        .setColor('#0099ff')
-        .setTitle('Dev Pengu Help')
-        .setDescription('A List of Commands for Dev Pengu')
-        .addFields(
-            { name: '**Help**', value: '`/help`' },
-            { name: '**Clear**', value: '`/clear amount`' },
-        )
+    async run(bot, interaction, api) {
 
-        interaction.reply({ embeds: [userEmbed] })
+        const userEmbed = new EmbedBuilder()
+            .setTitle('Dev Pengu Help')
+            .setDescription('A List of Commands for Dev Pengu')
+            .setColor(Colors.Blurple)
+            .addFields(
+                { name: '**Help**', value: '`/help`' },
+                { name: '**Clear**', value: '`/clear amount`' },
+            )
+
+        api.interactions.reply(interaction.id, interaction.token, { embeds: [userEmbed] })
         .catch(err => {
             console.log(err)
             return

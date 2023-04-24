@@ -8,11 +8,11 @@ module.exports = {
 
     CommandCreator() {
         const data = new SlashCommandBuilder()
-        .setName(this.name)
-        .setDescription(this.description)
-        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-        .addIntegerOption(option => option.setName("amount").setDescription("the amount of messages to remove").setMinValue(1).setRequired(true));
-      return data.toJSON();
+            .setName(this.name)
+            .setDescription(this.description)
+            .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+            .addIntegerOption(option => option.setName("amount").setDescription("the amount of messages to remove").setMinValue(1).setRequired(true));
+        return data.toJSON();
     },
 
     async run(bot, interaction) {
