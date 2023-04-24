@@ -41,7 +41,13 @@ let GetUser = async (sql, server, user) => {
             throw `could not create user on server ${server} with userid ${user} due to error: ` + error
         }
         // results will contain the results of the query
-        return results[0];
+        return new Promise((resolve, reject) => {
+            if (results[0] != undefined) {
+                resolve(results[0]);
+            } else {
+                reject("user not found");
+            }
+        })
         // fields will contain information about the returned results fields (if any)
     });
 }

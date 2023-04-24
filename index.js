@@ -11,7 +11,7 @@ let token = process.env.TOKEN;
 const rest = new REST({ version: '10' }).setToken(token);
 const ws = new WebSocketManager({
 	token,
-    intents: GatewayIntentBits.GuildMessages | GatewayIntentBits.MessageContent,
+    intents: GatewayIntentBits.GuildMessages | GatewayIntentBits.MessageContent | GatewayIntentBits.GuildMembers | GatewayIntentBits.Guilds,
     rest,
 });
 
@@ -70,6 +70,11 @@ bot.on(GatewayDispatchEvents.MessageReactionRemove, async (reaction, user) => {
     if (user.bot) return;
     HandleReaction(reaction, user, server, "remove", bot)
 });
+
+bot.on(GatewayDispatchEvents.GuildCreate, async ( guild) => {
+    console.log(guild.data.id)
+    console.log(await guild.api.guilds.getMembers(guild.data.id))
+})
 
 ws.connect();
 
