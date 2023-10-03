@@ -1,3 +1,5 @@
+# moved to [git.slpnetwork.de/Steev/](https://git.slpnetwork.de/Steev/Dev-Pengu)
+
 # Dev-Pengu
 A Discord Bot for our Discord Tech Community Server https://discord.gg/M655zKsM9y
 
